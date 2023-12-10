@@ -1,0 +1,18 @@
+syntax = "proto3";
+package common;
+option go_package = "github.com/stonejianbu/ec-protos/goout/common;common";
+
+message ResponseStatus {
+  // 状态码
+  string code = 1;
+  // 描述信息
+  string msg = 2;
+}
+
+// 通用响应内容
+message Response {
+  // 请求的唯一标识
+  string requestId = 1;
+  // 返回的请求状态
+  ResponseStatus status = 2;
+}

@@ -1,0 +1,95 @@
+syntax = "proto3";
+package order;
+option go_package = "github.com/stonejianbu/ec-protos/goout/order;order";
+import "common/status.proto";
+
+service OrderSrv {
+  // 提交订单
+  rpc SubmitOrder(SubmitOrderRequest) returns (SubmitOrderResponse){}
+  // 更新订单状态
+  rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse){}
+  // 查询订单详情
+  rpc GetOrderDetail(GetOrderDetailRequest) returns (GetOrderDetailResponse){}
+  // 查询订单列表
+  rpc GetOrderList(GetOrderListRequest) returns (GetOrderListResponse){}
+}
+
+message SubmitOrderRequest {
+  // 用户id
+  int32 userId = 1;
+  // 商品id
+  int32 goodsId = 2;
+  // 商品数量
+  int32 num = 3;
+  // 备注信息
+  string remark = 4;
+}
+
+message SubmitOrderResponse {
+  string requestId = 1;
+  common.ResponseStatus status = 2;
+  // 订单uuid
+  string orderUuid = 3;
+}
+
+message UpdateOrderStatusRequest {
+  int32 userId = 1;
+  string orderUuid = 2;
+  int32 status = 3;
+}
+
+message UpdateOrderStatusResponse {
+  string requestId = 1;
+  common.ResponseStatus status = 2;
+}
+
+message GetOrderDetailRequest {
+  int32 userId = 1;
+  string orderUuid = 2;
+}
+
+message GetOrderDetailResponse {
+  string requestId = 1;
+  common.ResponseStatus status = 2;
+  // 订单详情
+  OrderInfo item = 3;
+}
+
+message GetOrderListRequest {
+  // 根据用户id过滤，默认为0，表示查询全部用户
+  int32 userId = 1;
+  // 根据订单uuid过滤，默认为空字符，表示不过滤订单uuid
+  string orderUuid = 2;
+  // 根据订单状态过滤，默认为0表示查询全部状态的订单
+  int32 status = 3;
+}
+
+message GetOrderListResponse {
+  string requestId = 1;
+  common.ResponseStatus status = 2;
+  // 订单信息列表
+  repeated OrderInfo items = 3;
+}
+
+message OrderInfo {
+  // 订单唯一id
+  int32 id = 1;
+  // 订单id
+  string order_uuid = 2;
+  // 用户id
+  int32 user_id = 3;
+  // 商品id
+  int32 goods_id = 4;
+  // 商品名称
+  string goods_name = 5;
+  // 单价
+  int32 goods_price = 6;
+  // 数量
+  int32 goods_num = 7;
+  // 订单总价格
+  int32 total_price = 8;
+  // 订单状态 0-待使用 1-已完成 2-已取消
+  int32 status = 9;
+  // 备注
+  string remark = 10;
+}
